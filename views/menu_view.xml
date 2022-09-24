@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem
+        id="rest_main_menu"
+        name="Restaurant"/>
+
+    <menuitem
+        id="rest_staff_submenu"
+        name="Our Team"
+        parent="restaurant_project.rest_main_menu"/>
+
+    <menuitem
+        id="rest_staff_all_submenu"
+        name="All Records"
+        parent="restaurant_project.rest_staff_submenu"
+        action="restaurant_project.rest_staff_action_id"
+        sequence="1"/>       
+
+    <menuitem
+        id="rest_staff_male_submenu"
+        name="Male Team"
+        parent="restaurant_project.rest_staff_submenu"
+        action="restaurant_project.rest_staff_male_action_id"
+        sequence="2"/>  
+
+    <menuitem
+        id="rest_staff_female_submenu"
+        name="Female Team"
+        parent="restaurant_project.rest_staff_submenu"
+        action="restaurant_project.rest_staff_female_action_id"
+        sequence="3"/>
+
+    <menuitem
+        id="rest_staff_open_wizard_submenu"
+        name="Open Wizard"
+        parent="restaurant_project.rest_main_menu"
+        action="restaurant_project.rest_staff_wizard_action_id"
+        sequence="11"/>                    
+</odoo>

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree view  -->
+    <record id="rest_staff_tree_view_id" model="ir.ui.view">
+        <field name="name">rest.staff.tree.view.id</field>
+        <field name="model">rest.staff</field>
+        <field name="arch" type="xml">
+            <tree string="Staff Tree" decoration-info="status=='active'" decoration-warning="status=='resgined'">
+                <field name="sequence" widget="handle"/>
+                <field name="seq_num"/>
+                <field name="full_name"/>
+                <field name="age"/>
+                <field name="dob"/>
+                <field name="gender" />
+                <field name="mobile"/>
+                <field name="email"/>
+                <field name="country_id" widget="many2onebutton"/>
+                <field name="status"/>
+                <field name="ctc_salary" sum="sum of CTC salary of all staff Members"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="rest_staff_form_view_id" model="ir.ui.view">
+        <field name="name">rest.staff.form.view.id</field>
+        <field name="model">rest.staff</field>
+        <field name="arch" type="xml">
+            <form string="Staff Form">
+                <header>
+                    <button name="new_fun" string="pass a value Button" type="object" class="oe_highlight"/>
+                    <button name="delete_one2many" string="delete line" type="object" class = "oe_highlight"/>
+                    <button name="check_orm" string="Check ORM" type="object" class="oe_highlight"/>
+                    <button name="%(sale.action_quotations_with_onboarding)d" string="Go To Sale" type="action" class="oe_highlight"/>
+                    <button name="%(restaurant_project.rest_staff_wizard_action_id)d" string="Update Info" type="action" class="oe_highlight"/>
+                    <field name= "status" widget="statusbar"/>
+                    <button name= "do_resign" string="Resgined" type="object" class="oe_highlight" attrs="{'invisible':[('status','!=','active')]}"/>
+                </header>
+                <sheet>
+                    <h1>
+                        <field name="seq_num"/>
+                    </h1>
+                    <field name="image" widget="image" style="width:100px; height:100px;"/>
+                    <group>
+                        <group>
+                            <field name="full_name"/>
+                            <field name="age"/>
+                            <field name="dob"/>
+                            <field name="country_ids" widget="many2many_tags"/>
+                            <field name="gender"/>
+                            <field name="rating" widget="priority"/>
+                        </group>
+                        <group>
+                            <field name="mobile"/>
+                            <field name="email"/>
+                            <field name="country_id" options="{'no_crate': True}"/>
+                            <field name="country_code"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Staff Line">
+                            <field name="staff_line_ids">
+                                <tree string="Staff Line" editable="bottom" widget="section_and_note_one2many">
+                                    <control>
+                                        <create string="Add a Line"/>
+                                        <create string="Add a Section" context="{'default_display_type':'line_section'}"/>
+                                        <create string="Add a note" context="{'default_display_type':'line_note'}"/>
+                                    </control>
+                                    <field name = "sequence" widget="handle"/>
+                                    <field name = "name" />
+                                    <field name = "product_id"/>
+                                </tree>
+                                <form string="Staff Line">
+                                    <group>
+                                        <field name = "name"/>
+                                        <field name = "product_id"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                    <div style="float:right; padding-right:30px">
+                        <div style="float:left;">
+                            <h6 style="margin-bottom:-5px; margin-top:5px;">In Hand Salary</h6>
+                            <br/>
+                            <h6 style="margin-bottom: -5px;">EPF + ESI:</h6>
+                            <br/>
+                            <h6>CTC Salary:</h6>
+                        </div>
+                        <div style="float:right;">
+                            <field name="hand_salary" />
+                            <br/>
+                            <field name="epf_esi" />
+                            <br/>
+                            <field name="ctc_salary" />
+                        </div>
+                    </div>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search view  -->
+    <record id="rest_staff_search_view_id" model="ir.ui.view">
+        <field name="name">rest.staff.search.view.id</field>
+        <field name="model">rest.staff</field>
+        <field name="arch" type="xml">
+            <search string="Staff Search">
+                <field name="full_name"/>
+                <field name="age"/>
+                <field name="mobile"/>
+                <field name="email" filter_domain="['|',('mobile', 'ilike', 'self'),('email','ilike','self')]"/>
+                <filter string="Male" name="male" domain="[('gender', '=', 'male')]"/>
+                <filter string="Female" name="female" domain="[('gender', '=', 'female')]"/>
+                <separator/>
+                <filter name="active" string="Active" domain="[('status', '=', 'active')]"/>
+                <filter name="resgined" string="Resgined" domain="[('status', '=', 'resgined')]"/>
+                <separator/>
+                <!-- <group string="Group By" expand="0">
+                    <filter string="Gender" name="gender" context="{'group_by': 'gender}"/>
+                    <filter string="Status" name="status" context="{'group_by': 'status}"/>
+                </group> -->
+            </search>
+        </field>
+    </record>
+
+    <!-- kanban view  -->
+
+    <record id="rest_staff_kanban_view_id" model="ir.ui.view">
+        <field name="name">rest.staff.kanban.view.id</field>
+        <field name="model">rest.staff</field>
+        <field name="arch" type="xml">
+            <kanban string="Staff kanban" class="o_res_partner_kanban">
+                <field name="id" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click" style="height:135px;background-color:#ccff99;color:#006600;">
+                            <div style="width:30%;float:left;display:inline-block;">
+                                <img alt="Avatar" t-att-src="kanban_image('rest.staff','image', record.id.raw_value)" style="width:100px; height:120px"/>
+                            </div>
+                            <div style="width:70%; float:right; display:inline-block;">
+                                <ul style="list-style-type:none;">
+                                    <li>
+                                        <b>Name:</b>
+                                        <field name="full_name" />
+                                    </li>
+                                    <li>
+                                        <b>Age:</b>
+                                        <field name="age" />
+                                    </li>
+                                    <li>
+                                        <b>Mobile:</b>
+                                        <field name="mobile" />
+                                    </li>
+                                    <li>
+                                        <b>Email:</b>
+                                        <field name="email" />
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- action for all team  -->
+    <record id="rest_staff_action_id" model="ir.actions.act_window">
+        <field name="name">All Team</field>
+        <field name="res_model">rest.staff</field>
+        <field name="view_mode">tree,form,search,kanban</field>
+        <field name="help" type= "html">
+            <p class="o_view_nocontent_empty_folder">
+                          There is no record of staff
+            </p>
+        </field>
+    </record>
+
+    <!-- action for male menu  -->
+    <record id="rest_staff_male_action_id" model="ir.actions.act_window">
+        <field name="name">Male Team</field>
+        <field name="res_model">rest.staff</field>
+        <field name="view_mode">tree,form,search,kanban</field>
+        <field name="help" type= "html">
+            <p class="o_view_nocontent_empty_folder">
+                          There is no record of staff
+            </p>
+        </field>
+        <field name="domain">[('gender', '=', 'male')]</field>
+        <field name="context">{'default_gender':'male'}</field>
+    </record>
+
+    <!-- action for female menu  -->
+    <record id="rest_staff_female_action_id" model="ir.actions.act_window">
+        <field name="name">Female Team</field>
+        <field name="res_model">rest.staff</field>
+        <field name="view_mode">tree,form,search,kanban</field>
+        <field name="help" type= "html">
+            <p class="o_view_nocontent_empty_folder">
+                          There is no record of staff
+            </p>
+        </field>
+        <field name="domain">[('gender', '=', 'female')]</field>
+        <field name="context">{'default_gender':'female'}</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rest_staff_wizard_form_view_id" model="ir.ui.view">
+        <field name="name">rest.staff.wizard.form.view.id</field>
+        <field name="model">rest.staff.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Staff Form">
+                <sheet>
+                    <field name="image" widget="image" style="width:100px; height:100px;"/>
+                    <group>
+                        <group>
+                            <field name="full_name"/>
+                            <field name="age"/>
+                            <field name="dob"/>
+                            <field name="country_ids" widget="many2many_tags"/>
+                            <field name="gender"/>
+                        </group>
+                        <group>
+                            <field name="mobile"/>
+                            <field name="email"/>
+                            <field name="country_id" options="{'no_crate': True}"/>
+                            <field name="country_code"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Staff Line">
+                            <field name="staff_line_ids">
+                                <tree string="Staff Line" editable="bottom" widget="section_and_note_one2many">
+                                    <control>
+                                        <create string="Add a Line"/>
+                                        <create string="Add a Section" context="{'default_display_type':'line_section'}"/>
+                                        <create string="Add a note" context="{'default_display_type':'line_note'}"/>
+                                    </control>
+                                    <field name = "sequence" widget="handle"/>
+                                    <field name = "name" />
+                                    <field name = "product_id"/>
+                                </tree>
+                                <form string="Staff Line">
+                                    <group>
+                                        <field name = "name"/>
+                                        <field name = "product_id"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                    <div style="float:right; padding-right:30px">
+                        <div style="float:left;">
+                            <h6 style="margin-bottom:-5px; margin-top:5px;">In Hand Salary</h6>
+                            <br/>
+                            <h6 style="margin-bottom: -5px;">EPF + ESI:</h6>
+                            <br/>
+                            <h6>CTC Salary:</h6>
+                        </div>
+                        <div style="float:right;">
+                            <field name="hand_salary" />
+                            <br/>
+                            <field name="epf_esi" />
+                            <br/>
+                            <field name="ctc_salary" />
+                        </div>
+                    </div>
+                    <footer>
+                        <button name="update_info_fun" type="object" class="oe_highlight" string="update"/>
+                        <button name="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="rest_staff_wizard_action_id" model="ir.actions.act_window">
+        <field name="name">All Team</field>
+        <field name="res_model">rest.staff.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="restaurant_project.rest_staff_wizard_form_view_id"/>
+    </record>
+</odoo>
