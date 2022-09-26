@@ -28,11 +28,15 @@ class RestStaffWizard(models.TransientModel):
             country_lst.append(vals.id)
 
         lst2 = []
+
+
         for vals2 in self.staff_line_ids:
              lst2.append((0,0,{
                 'name': vals2.name,
                 'product_id': vals2.product_id.id
              }))
+
+
         upd_var.staff_line_ids = [(5,0,0)]        
         vals = {'full_name': self.full_name,
                 'age': self.age,

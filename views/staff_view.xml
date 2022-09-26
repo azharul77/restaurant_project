@@ -38,6 +38,11 @@
                     <button name= "do_resign" string="Resgined" type="object" class="oe_highlight" attrs="{'invisible':[('status','!=','active')]}"/>
                 </header>
                 <sheet>
+                    <div class="oe_buuton_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="toggle_active" icon="fa-archive" style="background-color:lightGray;color:mediumpurple">
+                            <field name="active" widget="boolean_button" options="{'terminology':'archived'}"/>
+                        </button>
+                    </div>
                     <h1>
                         <field name="seq_num"/>
                     </h1>

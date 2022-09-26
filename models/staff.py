@@ -88,6 +88,8 @@ class RestStaff(models.Model):
     ctc_salary = fields.Float(string="CTC", compute="calc_ctc")
     seq_num = fields.Char(string="Secquence no.",readonly=True,copy=False,index=True,default= lambda self: _('New'))
     rating = fields.Selection([('0', 'Very Low'),('1', 'Low'),('2','Normal'),('3','High'),('4','Very High'),('5','Excellent')], string="Rate me")
+    active = fields.Boolean(string="Active", default=True)
+
 
     @api.depends('hand_salary','epf_esi')
     def calc_ctc(self):
